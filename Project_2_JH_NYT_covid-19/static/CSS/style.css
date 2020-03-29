@@ -20,7 +20,7 @@ display: block;
 position: absolute;
 top: 0;
 left: 0;
-margin-top: 15px
+margin-top: 25px
 }
 
 #headerCanvas{
@@ -40,4 +40,12 @@ div.countrySelected{
 }
 .panel-body {
     background-color: rgba(193, 205, 237, 1);
+}
+
+.footer {
+	background: #BFAE9F;
+}
+
+.temp {
+	height: 200px;
 }

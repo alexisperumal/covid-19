@@ -28,73 +28,150 @@
 </head>
 
 <body>
-
-  <div class="container">
-  <!-- header -->
-    <div class="row">
-      <div class="col-md-12 text-center">
-      <canvas id="headerCanvas" width="1000" height="150">
-      </canvas>
-      <div class = "banner-text"> 
-        <h1>covid-19 dashboard</h1>
-        </div> 
-      </div>
-    </div>
-  <!-- header -->
-   <!-- body -->
-   <div class="row">
-            <div class ="col-md-2"></div>
-            <div class="col-md-8">
-             <!-- summary table div -->
-                <div class="border border-dark text-center">
-                    <br>
-                    <h3>Summary table id="summary-table"</h3>
-                    <br>
-                    <div id="summary-table"></div>
-                </div>
+    <header>
+        <div class="row">
+            <div class="col-md-12 text-center">
+            <canvas id="headerCanvas" width="1500" height="150">
+            </canvas>
+            <div class = "banner-text"> 
+              <h1>covid-19 dashboard</h1>
+              </div> 
             </div>
-            <div class ="col-md-2"></div>
-        </div>
+          </div>
+    </header>
 
-        <br>
+    <main>
+        <div class ="container-fluid">
+    
+            <div class="row mb-4">
+                <div class ="col-md-2"></div>
+                <div class="col-md-8">
+                <!-- summary table div -->
+                    <div class="border border-dark text-center temp" >
+                        <br>
+                        <h3>Summary table id="summary-table"</h3>
+                        <br>
+                        <div id="summary-table"></div>
+                    </div>
+                </div>
+                <div class ="col-md-2"></div>
+            </div>
 
-        <div class='row'>
-            <div class = 'col-md-3'>
-            <!-- Table with list of confirmed cases vs deaths -->
-                <div class="border border-dark text-center">
-                    <h3>Table with list of confirmed cases vs deaths id="cases-table"</h3>
-                    <div id="cases-table"></div>
+            <div class='row mb-4'>
+                <div class = "col-md-3">
+                <!-- Table with list of confirmed cases vs deaths -->
+                    <div class="border border-dark text-center temp">
+                        <h3>Table with list of confirmed cases vs deaths id="cases-table"</h3>
+                        <div id="cases-table"></div>
+                    </div>
+                </div>
+                
+                <div class = "col-md-8"> 
+                    <!-- Racing animation horizontal bar graph using D3 -->
+                    <div class="border border-dark text-center temp">
+                        <h3>Racing animation horizontal bar chart id="racing"</h3>
+                        <div id="racing"></div>
+                    </div>
                 </div>
             </div>
             
-            <div class = 'col-md-8'> 
-                <!-- Racing animation horizontal bar graph using D3 -->
-                <div class="border border-dark text-center">
-                    <h3>Racing animation horizontal bar chart id="racing"</h3>
-                    <div id="racing"></div>
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <div class="border border-dark text-center temp">
+                        <h3>Recovred vs deaths plot by age group id="plot"</h3>
+                        <div id="plot"></div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="border border-dark text-center temp">
+                        <h3>world map of cases with tooltip and leaflet id="map"</h3>
+                        <div id="map"></div>
+                    </div>
                 </div>
             </div>
         </div>
+    </main>
+  
+    <!-- Footer -->
+    <footer class="page-footer font-small blue pt-2">
 
-        <br>
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+  
+      <div class="row">
         
-        <div class="row">
-            <div class="col-md-6">
-                <div class="border border-dark text-center">
-                    <h3>Recovred vs deaths plot by age group id="plot"</h3>
-                    <div id="plot"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="border border-dark text-center">
-                    <h3>world map of cases with tooltip and leaflet id="map"</h3>
-                    <div id="map"></div>
+        <div class="col-md-5 mt-md-0 mt-3">
+          <h5 class="text-uppercase">Note from us:</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sollicitudin bibendum dictum. Pellentesque ut nunc ac augue bibendum dignissim non quis mi. Curabitur laoreet placerat justo. </p>
+        </div>
+        <!-- Grid column -->
+  
+        <hr class="clearfix w-100 d-md-none pb-3">
+  
+        <!-- Grid column -->
+        <div class="col-md-4 mb-md-0 mb-3">
+  
+          <!-- Links -->
+          <h5>Last Updated:</h5>
+          <div id="last-updated"></div>
+  
+        </div>
+        <!-- Grid column -->
+  
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+  
+          <!-- Links -->
+          <h5 class="text-uppercase">Data Sources:</h5>
+  
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">Link 1</a>
+            </li>
+            <li>
+              <a href="#!">Link 2</a>
+            </li>
+            <li>
+              <a href="#!">Link 3</a>
+            </li>
+            <li>
+              <a href="#!">Link 4</a>
+            </li>
+          </ul>
+  
+        </div>
+        <!-- Grid column -->
+  
+      </div>
+      <!-- Grid row -->
+  
+    </div>
+    <!-- Footer Links -->
+  
+    <!-- Copyright -->
+    <div class="footer-copyright text-center py-3">
+      <a href="https://github.com/alexisperumal/covid-19">© 2020 Copyright</a>
+    </div>
+    <!-- Copyright -->
+  
+    </footer>
+  
+
+
+<!--     <footer>
+        <div class='container-fluid'>
+            <div class='row'>
+                <div class='col-md-12 footer'>
+                    <section>
+                        <p>&copy; 2020 </p>
+                    </section>
                 </div>
             </div>
         </div>
+    </footer> -->
 
-    <!-- body -->
-  </div>
+
+
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="./static/js/app_time_series.js"></script>
