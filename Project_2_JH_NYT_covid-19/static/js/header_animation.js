@@ -28,7 +28,7 @@ timer.timer(function(elapsed) {
 
   context.lineWidth = 1;
   context.strokeStyle = "#88C1F2";
-  context.fillStyle = "#8C2A2A";
+  context.fillStyle = "#40291C";
   
 
   for (var i = 0; i < n; ++i) {
