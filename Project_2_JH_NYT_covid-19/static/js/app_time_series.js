@@ -45,7 +45,7 @@ function keyValuePairArr(arrObj){
     // console.log(arrObj[i]);
     // console.log(Object.keys(arrObj[i])[0]);
      newObj['date'] = Object.keys(arrObj[i])[0];
-     newObj['countConfirmed'] = +Object.values(arrObj[i])[0]
+     newObj['confirmed'] = +Object.values(arrObj[i])[0]
      arrNewObj.push(newObj)
   }
    // console.log(arrNewObj);
@@ -59,8 +59,8 @@ function addKeyObjArr(arrObjConfirmed, arrObjDeath){
    for(let i = 0; i < arrObjConfirmed.length; i++){
       let newObj = {}
       newObj['date'] = Object.keys(arrObjConfirmed[i])[0];
-      newObj['countConfirmed'] = +Object.values(arrObjConfirmed[i])[0];
-      newObj['countDeath'] = +Object.values(arrObjDeath[i])[0];
+      newObj['confirmed'] = +Object.values(arrObjConfirmed[i])[0];
+      newObj['death'] = +Object.values(arrObjDeath[i])[0];
       arrNewObj.push(newObj)
    }
      //console.log(arrNewObj);
@@ -178,12 +178,12 @@ getDataTimeSeries();
 /* create a bar chart horizontal */
 function barChart(data){
 
-//console.log(d3.max(data, d => d.countConfirmed))
+//console.log(d3.max(data, d => d.congfirmed))
 
   // set the dimensions and margins of the graph
 var margin = {top: 10, right: 30, bottom: 90, left: 40},
 width = 600 - margin.left - margin.right,
-height = 350 - margin.top - margin.bottom;
+height = 450 - margin.top - margin.bottom;
 padding = 100; // space around the chart, not including labels
 
 // append the svg object to the body of the page
@@ -209,7 +209,7 @@ svg.append("g")
 
 // Add Y axis
 var y = d3.scaleLinear()
-  .domain([0, d3.max(data, d => d.countConfirmed)])
+  .domain([0, d3.max(data, d => d.confirmed)])
   .range([ height, 0]);
 svg.append("g")
   .call(d3.axisLeft(y));
@@ -244,8 +244,8 @@ svg.selectAll("rect")
 .transition()
 .duration(800)
 .delay(800)
-.attr("y", function(d) { return y(d.countConfirmed); })
-.attr("height", function(d) { return height - y(d.countConfirmed); })
+.attr("y", function(d) { return y(d.confirmed); })
+.attr("height", function(d) { return height - y(d.confirmed); })
 .delay(function(d,i){console.log(i) ; return(i*100)})
 
 }
@@ -284,12 +284,12 @@ function barStackedChart(data){
     .attr("transform", "translate(0," + height + ")")
     .call(d3.axisBottom(x).tickSizeOuter(0));
 
-    var minyAxisValue = d3.min(data, d=> d.countConfirmed);
+    var minyAxisValue = d3.min(data, d=> d.confirmed);
     console.log(minyAxisValue)
 
   // Add Y axis
   var y = d3.scaleLinear()
-    .domain([0, d3.max(data, d=> d.countConfirmed)])
+    .domain([0, d3.max(data, d=> d.confirmed)])
     .range([ height, 0 ]);
   svg.append("g")
     .call(d3.axisLeft(y));
@@ -312,7 +312,7 @@ function barStackedChart(data){
   var tooltip = d3.select("#barChart")
     .append("div")
     .attr("class", "tooltip")
-    .style("background-color", "#bfae9f")
+    .style("background-color", "#88C1F2")
     .style("border", "solid")
     .style("border-width", "1px")
     .style("border-radius", "5px")
@@ -344,7 +344,7 @@ function barStackedChart(data){
          var subgroupValue = d.data[subgroupName];
          //console.log(subgroupValue);
          tooltip.style("display", "block")
-             .html("subgroup: " + subgroupName + "<br>" + "Value: " + subgroupValue)
+             .html(subgroupName + " cases "+ "<br>" + "count: " + subgroupValue)
              .style("opacity", 1)
              .style("left", d3.select(this).attr("x") + "px")
              .style("top", d3.select(this).attr("y") + "px");
