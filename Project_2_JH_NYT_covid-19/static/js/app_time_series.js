@@ -130,7 +130,7 @@ Promise.all([
     d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_global.json'),
     d3.json('csse_covid_19_time_series/time_series_covid19_deaths_global.json'),
 ]).then(([confirmed, deaths]) =>  {
-  console.log(confirmed)
+ // console.log(confirmed)
   var confirmedData = multiFilter(confirmed,filters);
   var deathData = multiFilter(deaths,filters);
  
@@ -268,7 +268,7 @@ function barStackedChart(data){
       // List of subgroups = header of the csv files = soil condition here
   var subgroups = Object.keys(data[0]).slice(1)
 
-  console.log(subgroups)
+ // console.log(subgroups)
 
   // List of groups = species here = value of the first column called group -> I show them on the X axis
   var groups = d3.map(data, function(d){return(d.date)}).keys()
@@ -285,7 +285,7 @@ function barStackedChart(data){
     .call(d3.axisBottom(x).tickSizeOuter(0));
 
     var minyAxisValue = d3.min(data, d=> d.confirmed);
-    console.log(minyAxisValue)
+   // console.log(minyAxisValue)
 
   // Add Y axis
   var y = d3.scaleLinear()
@@ -304,7 +304,7 @@ function barStackedChart(data){
     .keys(subgroups)
     (data)
 
-   console.log(stackedData)
+   //console.log(stackedData)
 
   // ----------------
   // Create a tooltip
@@ -351,7 +351,7 @@ function barStackedChart(data){
 
        })
       .on("mouseout", function(d) {
-        toolTip.style("display", "none");
+        tooltip.style("display", "none");
       })
 
  }
