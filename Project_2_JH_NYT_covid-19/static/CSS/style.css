@@ -4,6 +4,7 @@
 .Graphic-Design-3-hex { color: #40291C; }
 .Graphic-Design-4-hex { color: #8C4A32; }
 .Graphic-Design-5-hex { color: #8C2A2A; }
+.Graphic-Design-5-hex { color: #fac934; }
 
 
 
@@ -35,21 +36,19 @@ text-align: center;
  
  }
 
- .sumary{
-   background-color: #BFAE9F
- }
-
  .chartBody{
-   background-color: #BFAE9F;
+
+ 
  }
 
 
-.panel-primary {
-    border-color: #e3e3e3;
+
+div.countrySelected{
+
 }
-.panel-primary>.panel-heading{
-	background-color: #122f90;
-	border-color:#e3e3e3; 
+
+.countrySelected h6{
+  color: #40291C;
 }
 
 .axis-text{
@@ -68,6 +67,25 @@ text-align: center;
   border: 0;
   border-radius: 10px;
 }
+
+
+#footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%; /* Set the fixed height of the footer here */
+  height: 10px;
+  padding-top: 20px;
+  padding-bottom: 40px;
+  text-align: center;
+  background-color: #88C1F2;
+}
+
+#footer p {
+  margin: 0;
+  font-size: 16px;
+  color:#40291C;
+}
+
 
 
 

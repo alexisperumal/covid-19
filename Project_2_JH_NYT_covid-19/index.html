@@ -53,12 +53,13 @@
      </div>
    <!-- body -->
    <div class="row chartBody">
-          <div class = 'col-md-4'> 
-                <div class="text-center">
-                  <!-- side table and drop down -->
-                </div>
+          <div class = 'col-md-2'> 
+          <div class="countrySelected">
+            <h6>Country:</h6>
+            <select id="selCountry" onchange="optionChanged(this.value)"></select>
+          </div>
             </div>
-            <div class = 'col-md-8'> 
+            <div class = 'col-md-10'> 
                 <!-- animation bar graph using D3 -->
                 <div class="text-center">
                     <div id="barChart"></div> 
@@ -66,6 +67,10 @@
          </div>
   </div>
     <!-- body -->
+  </div>
+    <!-- Footer-->
+  <div id="footer">
+    <p>copyright &copy; 2020</p>
   </div>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
