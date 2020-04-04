@@ -416,9 +416,9 @@ function optionChanged(newCountry) {
 
               var format = locale.format(",");
               
-               dataSelector.append('p').text(`Total Cases:`).append('br');
+               dataSelector.append('p').text(`Total Worldwide Cases:`).append('br');
                dataSelector.append('h3').text(`${format(resultConfirmed.reduce((a,b) => a + b.confirmed_cases,0)) }`).append('hr') 
-               dataSelector.append('p').text(`Deaths:`).append('br');
+               dataSelector.append('p').text(`Deaths Worldwide:`).append('br');
                dataSelector.append('h3').text(`${format(resultDeath.reduce((a, b) => +a + +b.death, 0)) }`).append('hr')   
             
             
