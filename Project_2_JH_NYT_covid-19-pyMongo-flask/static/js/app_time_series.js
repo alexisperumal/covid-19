@@ -558,7 +558,7 @@ function barStackedChart(data){
          var subgroupValue = d.data[subgroupName];
          //console.log(subgroupValue);
          tooltip.style("display", "block")
-             .html(subgroupName + " cases "+ "<br>" + "count: " + subgroupValue)
+             .html(subgroupName + " cases "+ "<br>" + subgroupValue)
              .style("opacity", 1)
              .style("left", d3.select(this).attr("x")+ "px")
              .style("top", d3.select(this).attr("y") + "px");
