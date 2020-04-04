@@ -1,8 +1,6 @@
 
 function createMap(cases) {
 
-    const API_KEY = "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q";
-
     var lightmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
@@ -24,18 +22,11 @@ function createMap(cases) {
         accessToken: API_KEY
     });
 
-    var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-        maxZoom: 18,
-        id: "mapbox.satellite",
-        accessToken: API_KEY
-    });
 
     var baseMaps = {
         "Light Map": lightmap,
         "Dark Map": darkmap,
         "Outdoor Map": outdoors,
-        "Satellite": satellite,
     };
 
     var overlayMaps = {
@@ -51,7 +42,7 @@ function createMap(cases) {
     });
 
     L.control.layers(baseMaps, overlayMaps, {
-        collaped: false
+        collaped: true
     }).addTo(map);
 
     /*
@@ -165,6 +156,9 @@ function getData(url) {
             data.state = data.state;
             data.date = data.date;
 
+            if (data.county === "New York City") {
+                data.fips = 36061;
+            };
         });
         
         
