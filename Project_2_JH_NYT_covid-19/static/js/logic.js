@@ -1,10 +1,12 @@
 
 function createMap(cases) {
 
+    const API_KEY = "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q";
+
     var lightmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
     attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
     maxZoom: 18,
-    id: "mapbox.streets",
+    id: "mapbox.streets-basic",
     accessToken: API_KEY
     });
 
@@ -15,9 +17,25 @@ function createMap(cases) {
         accessToken: API_KEY
     });
 
+    var outdoors = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+        maxZoom: 18,
+        id: "mapbox.outdoors",
+        accessToken: API_KEY
+    });
+
+    var satellite = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+        maxZoom: 18,
+        id: "mapbox.satellite",
+        accessToken: API_KEY
+    });
+
     var baseMaps = {
         "Light Map": lightmap,
-        "Dark Map": darkmap
+        "Dark Map": darkmap,
+        "Outdoor Map": outdoors,
+        "Satellite": satellite,
     };
 
     var overlayMaps = {
@@ -67,7 +85,8 @@ function createMarkers(states) {
         //console.log(state.location)
       
         var circle = L.circle(state.location, {
-            fillOpacity: 0.25,
+            fillOpacity: 0.5,
+            weight:0,
             color: "red",
             fillColor: "red",
             radius: markerSize(state.cases),
