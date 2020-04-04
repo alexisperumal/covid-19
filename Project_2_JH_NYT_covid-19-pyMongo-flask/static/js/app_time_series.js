@@ -208,15 +208,24 @@ function getDataTimeSeriesSumary(country){
       var dataSelector = d3.select('#sumary');
       dataSelector.html("");
 
+      var locale = d3.formatLocale({
+        decimal: ",",
+        thousands: ", ",
+        grouping: [3]
+      });
+
+      var format = locale.format(",");
+
         Object.entries(arrDatesConfirmedDeathCount [arrDatesConfirmedDeathCount.length -1]).forEach(([key,value]) =>{
-            dataSelector.append('p').text(`${key}: ${value}`).append('hr')
+            dataSelector.append('p').text(`${key}: ${format(value)}`).append('hr')
             
         });
 
        const totalCases = Object.values(arrDatesConfirmedDeathCount [arrDatesConfirmedDeathCount.length -1]).reduce((a, b) => a + b) ;
        //console.log(totalCases);
 
-       dataSelector.append('p').text(`total: ${totalCases }`).append('hr')        
+       dataSelector.append('p').text(`total: ${format(totalCases) }`).append('hr')        
+          
       
         
   }).catch(function(err) {
