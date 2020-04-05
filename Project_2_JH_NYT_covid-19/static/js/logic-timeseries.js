@@ -99,29 +99,53 @@ function buildStateTimeSeriesChart_old(selector, state_data) {
 function buildStateTimeSeriesChart(selector, dataset) {
     var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan']
 
-    let traces = [];
+    let cases_traces = [];
+    let deaths_traces = [];
     let state_data = [];
-    let x_values = [];
-    let y_values = [];
     let trace = {};
     for (i=0; i<states.length; i++) {
-        state_data = dataset.filter(record => record.state == states[i]);
+        state_data = dataset.filter(record => ((record.state == states[i]) &&
+                                    (Date.parse(record.date) >= Date.parse("2020-03-15"))));
         x_values = state_data.map(function(value) { return value.date; });
-        y_values = state_data.map(function(value) { return value.deaths; });
-        trace = {
+        y_cases = state_data.map(function(value) { return value.cases; });
+        y_deaths = state_data.map(function(value) { return value.deaths; });
+
+        cases_trace = {
             x: x_values,
-            y: y_values,
+            y: y_cases,
+            name: `${states[i]} Cases`,
+            mode: 'lines'
+        };
+        cases_traces.push(cases_trace);
+
+        deaths_trace = {
+            x: x_values,
+            y: y_deaths,
             name: `${states[i]} Deaths`,
             mode: 'lines'
         };
-        traces.push(trace);
+        deaths_traces.push(deaths_trace);
     };
 
-    var timeseries_layout = {
-        title: 'COVID-19 Deaths by select States'
+    var cases_layout = {
+        title: 'COVID-19 Cases by select US States',
+        // yaxis : {
+        //     type : 'log',
+        //     autorange : true
+        //   }
       };
 
-    Plotly.newPlot("us_timeseries", traces, timeseries_layout);
+    Plotly.newPlot("us_timeseries_cases", cases_traces, cases_layout);
+
+    var deaths_layout = {
+        title: 'COVID-19 Deaths by select US States',
+        // yaxis : {
+        //     type : 'log',
+        //     autorange : true
+        //   }
+      };
+
+    Plotly.newPlot("us_timeseries_deaths", deaths_traces, deaths_layout);
 }
 
 
@@ -129,7 +153,6 @@ function optionChanged(newSample) {
     // Fetch new data each time a new sample is selected
     buildCharts(newSample);
 }
-
 
 // Initialize the dashboard
 init();
