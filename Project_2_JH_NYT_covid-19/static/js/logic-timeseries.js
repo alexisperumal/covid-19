@@ -39,63 +39,6 @@ function init() {
 }
 
 
-function buildStateTimeSeriesChart_old(selector, state_data) {
-    var data_NY = state_data.filter(record => record.state == "New York");
-    var x_values_NY = data_NY.map(function(value) { return value.date; });
-    var y_cases_NY = data_NY.map(function(value) { return value.cases; });
-    var y_deaths_NY = data_NY.map(function(value) { return value.deaths; });
-
-    var data_CA = state_data.filter(record => record.state == "California");
-    var x_values_CA = data_CA.map(function(value) { return value.date; });
-    var y_cases_CA = data_CA.map(function(value) { return value.cases; });
-    var y_deaths_CA = data_CA.map(function(value) { return value.deaths; });
-
-
-    // TESTER = document.getElementById('tester');
-    // Plotly.newPlot(TESTER, [{
-    //     x: [1, 2, 3, 4, 5],
-    //     y: [1, 2, 4, 8, 16] }], {
-    //     margin: { t: 0 } }
-    // );
-
-    let NY_Cases = {
-        x: x_values_NY,
-        y: y_cases_NY,
-        text: "NY Cases",
-        mode: 'lines'
-    };
-
-    let NY_Deaths = {
-        x: x_values_NY,
-        y: y_deaths_NY,
-        text: "NY Deaths",
-        mode: 'lines'
-    };
-
-    let CA_Cases = {
-        x: x_values_CA,
-        y: y_cases_CA,
-        text: "CA Cases",
-        mode: 'lines'
-    };
-
-    let CA_Deaths = {
-        x: x_values_CA,
-        y: y_deaths_CA,
-        text: "CA Deaths",
-        mode: 'lines'
-    };
-
-    let timeseries_data = [NY_Cases, NY_Deaths, CA_Cases, CA_Deaths];
-
-    var timeseries_layout = {
-        title: 'New York and California Cases and Deaths'
-      };
-
-    Plotly.newPlot("us_timeseries", timeseries_data, timeseries_layout);
-
-}
-
 function buildStateTimeSeriesChart(selector, dataset) {
     var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan']
 
