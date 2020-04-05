@@ -39,7 +39,7 @@ function init() {
 }
 
 
-function buildStateTimeSeriesChart(selector, state_data) {
+function buildStateTimeSeriesChart_old(selector, state_data) {
     var data_NY = state_data.filter(record => record.state == "New York");
     var x_values_NY = data_NY.map(function(value) { return value.date; });
     var y_cases_NY = data_NY.map(function(value) { return value.cases; });
@@ -49,6 +49,7 @@ function buildStateTimeSeriesChart(selector, state_data) {
     var x_values_CA = data_CA.map(function(value) { return value.date; });
     var y_cases_CA = data_CA.map(function(value) { return value.cases; });
     var y_deaths_CA = data_CA.map(function(value) { return value.deaths; });
+
 
     // TESTER = document.getElementById('tester');
     // Plotly.newPlot(TESTER, [{
@@ -93,6 +94,34 @@ function buildStateTimeSeriesChart(selector, state_data) {
 
     Plotly.newPlot("us_timeseries", timeseries_data, timeseries_layout);
 
+}
+
+function buildStateTimeSeriesChart(selector, dataset) {
+    var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan']
+
+    let traces = [];
+    let state_data = [];
+    let x_values = [];
+    let y_values = [];
+    let trace = {};
+    for (i=0; i<states.length; i++) {
+        state_data = dataset.filter(record => record.state == states[i]);
+        x_values = state_data.map(function(value) { return value.date; });
+        y_values = state_data.map(function(value) { return value.deaths; });
+        trace = {
+            x: x_values,
+            y: y_values,
+            name: `${states[i]} Deaths`,
+            mode: 'lines'
+        };
+        traces.push(trace);
+    };
+
+    var timeseries_layout = {
+        title: 'COVID-19 Deaths by select States'
+      };
+
+    Plotly.newPlot("us_timeseries", traces, timeseries_layout);
 }
 
 
