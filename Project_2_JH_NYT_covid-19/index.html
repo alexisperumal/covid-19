@@ -10,23 +10,24 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  <!--Leaflet JS & CSS -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
-  integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
-  crossorigin=""/>
-  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
-  integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
-  crossorigin=""></script>
+    <!--Leaflet JS & CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+    integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+    integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+    crossorigin=""></script>
 
     <!--D3 JavaScript -->
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.9.7/d3.min.js"></script>
 
+    <!-- Plotly. See: https://plotly.com/javascript/getting-started/ -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
     <!-- API key for mapbox-->
         <script type="text/javascript" src="static/js/config.js"></script>
    
-
      <!-- style -->
   <link rel="stylesheet" href="./static/CSS/style.css">
 </head>
@@ -92,13 +93,12 @@
   <!-- Alexis will put his graph here. -->
   <div class="row geoMapCountries">
     <div class="col-md-12 ">
-    <h3 class="geomap-title">Alexis' plot</h3>
+    <h3 class="geomap-title">COVID-19 Growth</h3>
       <div id="us_timeseries" style="width: 900px; height: 500px;"></div>
     </div>
   </div>
 
-
-
+  <!-- <div id="tester" style="width:600px;height:250px;"></div> -->
 
 
     <!-- body -->
@@ -112,7 +112,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
 
    <!-- Loading our javascript code: -->
   <script src="./static/js/header_animation.js"></script> <!-- Arun's header animation. -->
