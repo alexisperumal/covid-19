@@ -72,20 +72,22 @@ function buildStateTimeSeriesChart(selector, dataset) {
 
     var cases_layout = {
         title: 'COVID-19 Cases by select US States',
-        // yaxis : {
-        //     type : 'log',
-        //     autorange : true
-        //   }
+        yaxis : {
+            // type : 'log',
+            // autorange : true,
+            title: {text : '# of Cases to Date'}
+          }
       };
 
     Plotly.newPlot("us_timeseries_cases", cases_traces, cases_layout);
 
     var deaths_layout = {
         title: 'COVID-19 Deaths by select US States',
-        // yaxis : {
-        //     type : 'log',
-        //     autorange : true
-        //   }
+        yaxis : {
+            // type : 'log',
+            // autorange : true,
+            title: {text : '# of Deaths to Date'}
+          }
       };
 
     Plotly.newPlot("us_timeseries_deaths", deaths_traces, deaths_layout);
