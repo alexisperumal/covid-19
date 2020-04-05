@@ -218,14 +218,14 @@ function getDataTimeSeriesSumary(country){
       var format = locale.format(",");
 
         Object.entries(arrDatesConfirmedDeathCount [arrDatesConfirmedDeathCount.length -1]).forEach(([key,value]) =>{
-            dataSelector.append('p').text(`${key}: ${format(value)}`).append('hr')
+            dataSelector.append('p').text(`${key}:`).append('p').text(`${format(value)}`).append('hr')
             
         });
 
        const totalCases = Object.values(arrDatesConfirmedDeathCount [arrDatesConfirmedDeathCount.length -1]).reduce((a, b) => a + b) ;
        //console.log(totalCases);
 
-       dataSelector.append('p').text(`total: ${format(totalCases) }`).append('hr')        
+       dataSelector.append('p').text(`total:`).append('p').text(`${format(totalCases) }`).append('hr')        
       
         
   }).catch(function(err) {
