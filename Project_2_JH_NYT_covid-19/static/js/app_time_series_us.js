@@ -47,7 +47,7 @@ var groupBy = function(xs, key) {
       for(let i = 0; i < arrObjConfirmed.length; i++){
          let newObj = {}
          newObj['Province_State'] = arrObjConfirmed[i]['Province_State'];
-         newObj['confirmed_cases'] = arrObjConfirmed[i]['confirmed_cases'];
+         newObj['confirmed_cases_excluding_death'] = arrObjConfirmed[i]['confirmed_cases'] - arrObjDeath[i]['death'];
          newObj['death'] = arrObjDeath[i]['death'];
          arrNewObj.push(newObj)
       }
@@ -113,13 +113,13 @@ var config = {
    type: 'horizontalBar',
    data: {
      labels: casesUS.sort(function(a, b) {
-      return b.confirmed_cases - a.confirmed_cases;
+      return b.confirmed_cases_excluding_death - a.confirmed_cases_excluding_death;
   }).map(b => b.Province_State).slice(0,20),
      datasets: [{
-       label: "Confirmed Cases",
+       label: "Confirmed Cases Excluding Deaths",
        backgroundColor: "#88C1F2",
        hoverBackgroundColor: "#88C1F2",
-       data: casesUS.map(d => d.confirmed_cases).sort((a,b)=> b - a).slice(0,20),
+       data: casesUS.map(d => d.confirmed_cases_excluding_death).sort((a,b)=> b - a).slice(0,20),
      }, {
        label: "Deaths",
        backgroundColor: "#8C2A2A",
