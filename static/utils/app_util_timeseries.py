@@ -4,7 +4,7 @@ from json import dump
 from os.path import splitext
 
 
-for csvfile in glob('../static/csse_covid_19_time_series/*.csv'):
+for csvfile in glob('../../csse_covid_19_time_series/*.csv'):
     stem, _ = splitext(csvfile)
     jsonfile = stem + '.json'
     
