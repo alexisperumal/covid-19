@@ -59,15 +59,15 @@ function sumSimilarKeysArrStateObjs(arrObjs){
 /* data parsing */
 /* ---------------------------------------------- */
 
-function getDataUS(){
+const urlUSConfirmed = 'csse_covid_19_time_series/time_series_covid19_confirmed_US.json'
+const urlUSDeath = 'csse_covid_19_time_series/time_series_covid19_deaths_US.json'
+
+function getDataUS(urlUSConfirmed){
 
   Promise.all([
-     d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_US.json'),
-     d3.json('csse_covid_19_time_series/time_series_covid19_deaths_US.json'),
-     d3.json('nyt_covid-19_us/us-states.json'),
-     d3.json('nyt_covid-19_us/us-counties.json')
+     d3.json(urlUSConfirmed),
      
-  ]).then(([confirmed,deaths,states,counties]) =>  {
+  ]).then(([confirmed]) =>  {
  // console.log(confirmed);
   //console.log(deaths);
   for (var lastProperty in confirmed[0]);
@@ -80,13 +80,6 @@ function getDataUS(){
             } 
           });
 
-  var arrObjsDeath = deaths.map((item) => {
-           return {
-                    Province_State: item['Province_State'],
-                 'death': +item[lastProperty]
-           } 
-      });
-
 //   console.log( arrObjsConfirmed)
 
 var resultConfirmed = sumSimilarKeysArrStateObjs(arrObjsConfirmed).filter((d, index, self) =>
@@ -97,35 +90,18 @@ index === self.findIndex((t) => (
 
 //console.log(resultConfirmed)
 
-var resultDeath = sumSimilarKeysArrObjsStateDeath(arrObjsDeath).filter((d, index, self) =>
-index === self.findIndex((t) => (
-  t.Province_State === d.Province_State && t.death === d.death
-))
-);
-console.log(resultDeath)
-
-console.log(resultDeath.map(d => d.death).sort((a,b)=> b - a).slice(0,15))
-
-console.log(creatNewArrOfObjectsStates(resultConfirmed,resultDeath))
-var casesUS = creatNewArrOfObjectsStates(resultConfirmed,resultDeath)
-
 var config = {
   type: 'horizontalBar',
   data: {
-    labels: casesUS.sort(function(a, b) {
+    labels: resultConfirmed .sort(function(a, b) {
      return b.confirmed_cases_excluding_death - a.confirmed_cases_excluding_death;
  }).map(b => b.Province_State).slice(0,20),
     datasets: [{
       label: "Confirmed Cases Excluding Deaths",
       backgroundColor: "#88C1F2",
       hoverBackgroundColor: "#88C1F2",
-      data: casesUS.map(d => d.confirmed_cases_excluding_death).sort((a,b)=> b - a).slice(0,20),
-    }, {
-      label: "Deaths",
-      backgroundColor: "#8C2A2A",
-      hoverBackgroundColor: "#8C2A2A",
-      data: resultDeath.map(d => d.death).sort((a,b)=> b - a).slice(0,20)
-    }]
+      data: resultConfirmed.map(d => d.confirmed_cases_excluding_death).sort((a,b)=> b - a).slice(0,20),
+    }, ]
   },
   options: {
      scales: {
@@ -134,13 +110,14 @@ var config = {
             ticks: {
               beginAtZero: true,
               fontFamily: "'Open Sans Bold', sans-serif",
-              fontSize: 11
+              fontSize: 11,
+              color: "#40291C"
             },
             scaleLabel: {
               display: false
             },
             gridLines: {},
-            stacked: true
+            stacked: false
           }
         ],
         yAxes: [
@@ -149,13 +126,15 @@ var config = {
               display: false,
               color: "#fff",
               zeroLineColor: "#fff",
-              zeroLineWidth: 0
+              zeroLineWidth: 0,
+             
             },
             ticks: {
               fontFamily: "'Open Sans Bold', sans-serif",
-              fontSize: 11
+              fontSize: 11,
+              color: "#40291C"
             },
-            stacked: true
+            stacked: false
           }
         ]
       },
@@ -171,8 +150,94 @@ new Chart(ctx, config);
   console.log(err)
 })
 }
+
+function getDataUSDeaths(urlUSDeath){
+
+ Promise.all([
+       d3.json(urlUSDeath),
+    
+ ]).then(([deaths]) =>  {
+// console.log(confirmed);
+ //console.log(deaths);
+ for (var lastProperty in deaths[0]);
+// console.log(lastProperty)
+
+ var arrObjsDeath = deaths.map((item) => {
+          return {
+                   Province_State: item['Province_State'],
+                'death': +item[lastProperty]
+          } 
+     });
+
+
+var resultDeath = sumSimilarKeysArrObjsStateDeath(arrObjsDeath).filter((d, index, self) =>
+index === self.findIndex((t) => (
+ t.Province_State === d.Province_State && t.death === d.death
+))
+);
+
+var config = {
+ type: 'horizontalBar',
+ data: {
+   labels: resultDeath.sort(function(a, b) {
+    return b.death- a.death;
+}).map(b => b.Province_State).slice(0,20),
+   datasets: [ {
+     label: "Deaths",
+     backgroundColor: "#8C4A32",
+     hoverBackgroundColor: "#8C4A32",
+     data: resultDeath.map(d => d.death).sort((a,b)=> b - a).slice(0,20)
+   }]
+ },
+ options: {
+    scales: {
+       xAxes: [
+         {
+           ticks: {
+             beginAtZero: true,
+             fontFamily: "'Open Sans', sans-serif",
+             fontSize: 11,
+             color: "#40291C"
+           },
+           scaleLabel: {
+             display: false
+           },
+           gridLines: {},
+           stacked: true
+         }
+       ],
+       yAxes: [
+         {
+           gridLines: {
+             display: false,
+             color: "#fff",
+             zeroLineColor: "#fff",
+             zeroLineWidth: 0,
+             color: "#40291C"
+           },
+           ticks: {
+             fontFamily: "'Open Sans', sans-serif",
+             fontSize: 11,
+             color: "#40291C"
+           },
+           stacked: true
+         }
+       ]
+     },
+ }
+};
+
+var ctx = document.getElementById("stackedBarChart").getContext("2d");
+new Chart(ctx, config);
+
+}).catch(function(err) {
+ console.log(err)
+})
+}
  
-getDataUS();
+var init =()=> getDataUS(urlUSConfirmed);
 
-
+var confirmed = (urlUSConfirmed) => getDataUS(urlUSConfirmed);
+var deaths =(urlUSDeath) => getDataUSDeaths(urlUSDeath);
+  
 
