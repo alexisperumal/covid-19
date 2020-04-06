@@ -100,11 +100,7 @@ index === self.findIndex((t) => (
   t.Province_State === d.Province_State && t.death === d.death
 ))
 );
-console.log(resultDeath)
 
-console.log(resultDeath.map(d => d.death).sort((a,b)=> b - a).slice(0,15))
-
-console.log(creatNewArrOfObjectsStates(resultConfirmed,resultDeath))
 var casesUS = creatNewArrOfObjectsStates(resultConfirmed,resultDeath)
 
 var config = {
