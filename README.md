@@ -6,15 +6,15 @@ UCSD Data Science Project 2 - D3 Visualization - COVID-19 Dashboard
 * Arundhati Chakraborty
 * Grant Thompson
 
-## Description of the dataset
+## Description
 
 Interactive Data Visualization with various js visualization libraries, Python, and MongoDB to display the covid-19 cases around the globe and in United States
 
  ### The Dataset includes:
 
  * Time Series Data From John Hopkins
-  * * confirmed cases, death, recovered globally
-  * * confirmed and deaths in United States
+   * confirmed cases, death, recovered globally
+   * confirmed and deaths in United States
  
  * states and County data for united states from New York Times
 
