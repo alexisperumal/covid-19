@@ -47,6 +47,7 @@
     </div>
   <!-- header -->
    <!-- body -->
+    <!-- Arun's Map -->
      <div class="row ">
           <div class = 'col-md-12'> 
            <div class="sumary-panel">
@@ -68,7 +69,6 @@
            </div>
             </div>
             <div class = 'col-md-10'> 
-                <!-- animation bar graph using D3 -->
                 <div class="text-center">
                     <div id="barChart"></div> 
                 </div>
@@ -81,6 +81,14 @@
         <div id="regions_div" style="width: 900px; height: 500px;"></div>
       </div>
   </div>
+
+    <div class="row geoMapCountries">
+      <div class="col-md-12 ">
+      <h3 class="geomap-title">Top 20 States affected by Coronavirus in the United States</h3>
+       <canvas id="stackedBarChart"></canvas>
+      </div>
+  </div>
+ <!-- Arun's Map end-->
 
   <!-- Grant's Map -->
   <div class="row geoMapCountries">
@@ -113,12 +121,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script>
 
    <!-- Loading our javascript code: -->
   <script src="./static/js/header_animation.js"></script> <!-- Arun's header animation. -->
   <script src="./static/js/app_time_series.js"></script>  <!-- All of Arun's Javascript coding. -->
-  <script src="./static/js/app_nyt_us.js"></script>  <!-- Adding DC Plots (Arun) -->
+  <script src="./static/js/app_time_series_us.js"></script>  <!-- Adding DC Plots (Arun) -->
   <script src="./static/js/logic.js"></script> <!-- Grant's code for the US County Map -->
   <script src="./static/js/logic-timeseries.js"></script> <!-- Alexis' code for timeseries plots -->
 
