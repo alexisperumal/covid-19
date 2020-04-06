@@ -59,15 +59,13 @@ function sumSimilarKeysArrStateObjs(arrObjs){
 /* data parsing */
 /* ---------------------------------------------- */
 
-const urlUSConfirmed = 'csse_covid_19_time_series/time_series_covid19_confirmed_US.json'
-const urlUSDeath = 'csse_covid_19_time_series/time_series_covid19_deaths_US.json'
-
-function getDataUS(urlUSConfirmed){
+function getDataUS(){
 
   Promise.all([
-     d3.json(urlUSConfirmed),
+     d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_US.json'),
+     d3.json('csse_covid_19_time_series/time_series_covid19_deaths_US.json'),
      
-  ]).then(([confirmed]) =>  {
+  ]).then(([confirmed,deaths]) =>  {
  // console.log(confirmed);
   //console.log(deaths);
   for (var lastProperty in confirmed[0]);
@@ -80,6 +78,13 @@ function getDataUS(urlUSConfirmed){
             } 
           });
 
+  var arrObjsDeath = deaths.map((item) => {
+           return {
+                    Province_State: item['Province_State'],
+                 'death': +item[lastProperty]
+           } 
+      });
+
 //   console.log( arrObjsConfirmed)
 
 var resultConfirmed = sumSimilarKeysArrStateObjs(arrObjsConfirmed).filter((d, index, self) =>
@@ -90,17 +95,29 @@ index === self.findIndex((t) => (
 
 //console.log(resultConfirmed)
 
+var resultDeath = sumSimilarKeysArrObjsStateDeath(arrObjsDeath).filter((d, index, self) =>
+index === self.findIndex((t) => (
+  t.Province_State === d.Province_State && t.death === d.death
+))
+);
+console.log(resultDeath)
+
+console.log(resultDeath.map(d => d.death).sort((a,b)=> b - a).slice(0,15))
+
+console.log(creatNewArrOfObjectsStates(resultConfirmed,resultDeath))
+var casesUS = creatNewArrOfObjectsStates(resultConfirmed,resultDeath)
+
 var config = {
   type: 'horizontalBar',
   data: {
-    labels: resultConfirmed .sort(function(a, b) {
+    labels: casesUS.sort(function(a, b) {
      return b.confirmed_cases_excluding_death - a.confirmed_cases_excluding_death;
  }).map(b => b.Province_State).slice(0,20),
     datasets: [{
       label: "Confirmed Cases Excluding Deaths",
       backgroundColor: "#88C1F2",
       hoverBackgroundColor: "#88C1F2",
-      data: resultConfirmed.map(d => d.confirmed_cases_excluding_death).sort((a,b)=> b - a).slice(0,20),
+      data: casesUS.map(d => d.confirmed_cases_excluding_death).sort((a,b)=> b - a).slice(0,20),
     }, ]
   },
   options: {
@@ -117,7 +134,7 @@ var config = {
               display: false
             },
             gridLines: {},
-            stacked: false
+            stacked: true
           }
         ],
         yAxes: [
@@ -134,7 +151,7 @@ var config = {
               fontSize: 11,
               color: "#40291C"
             },
-            stacked: false
+            stacked: true
           }
         ]
       },
@@ -151,10 +168,10 @@ new Chart(ctx, config);
 })
 }
 
-function getDataUSDeaths(urlUSDeath){
+function getDataUSDeaths(){
 
  Promise.all([
-       d3.json(urlUSDeath),
+       d3.json('csse_covid_19_time_series/time_series_covid19_deaths_US.json'),
     
  ]).then(([deaths]) =>  {
 // console.log(confirmed);
@@ -175,6 +192,9 @@ index === self.findIndex((t) => (
  t.Province_State === d.Province_State && t.death === d.death
 ))
 );
+//console.log(resultDeath)
+
+//console.log(resultDeath.map(d => d.death).sort((a,b)=> b - a).slice(0,15))
 
 var config = {
  type: 'horizontalBar',
@@ -230,14 +250,16 @@ var config = {
 var ctx = document.getElementById("stackedBarChart").getContext("2d");
 new Chart(ctx, config);
 
+
+
 }).catch(function(err) {
  console.log(err)
 })
 }
  
-var init =()=> getDataUS(urlUSConfirmed);
+getDataUS();
 
-var confirmed = (urlUSConfirmed) => getDataUS(urlUSConfirmed);
-var deaths =(urlUSDeath) => getDataUSDeaths(urlUSDeath);
+var confirmed = () => getDataUS();
+var deaths =() => getDataUSDeaths();
   
 
