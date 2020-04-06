@@ -147,7 +147,7 @@ function getData(url) {
         
         var dates = [...new Set(jsonData.map(a=>a.date))];
 
-        console.log(dates);
+        // console.log(dates);
         
         jsonData.forEach(function(data) {
             data.fips = +data.fips;
