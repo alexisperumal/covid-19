@@ -14,6 +14,7 @@
         //     deaths: "0"
 // usStatesURL_JSON = "";
 usStatesURL_CSV = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv";
+usStatesFlaskRoute = "/states_db/states_data";
 
 // US County data time series data from NY Times:
 //   https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv
