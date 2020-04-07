@@ -14,6 +14,7 @@
         //     deaths: "0"
 // usStatesURL_JSON = "";
 usStatesURL_CSV = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-states.csv";
+usStatesFlaskRoute = "/states_db/states_data";
 
 // US County data time series data from NY Times:
 //   https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv
@@ -33,7 +34,8 @@ function init() {
     var chart_div_selector = document.getElementById('us_timeseries');
 
     // Read in the csv into javascript, http://learnjsdata.com/read_data.html
-    d3.csv(usStatesURL_CSV).then((data) => {   
+    // d3.csv(usStatesURL_CSV).then((data) => {   // use for the static website.
+    d3.json(usStatesFlaskRoute).then((data) => {   // use for the flask/mongoDB version of the website.
         buildStateTimeSeriesChart(chart_div_selector, data);
         // buildStateTimeSeriesRibbonChart(chart_div_selector, data);
         } );
@@ -41,7 +43,7 @@ function init() {
 
 
 function buildStateTimeSeriesChart(selector, dataset) {
-    var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan']
+    var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan', 'Hawaii']
 
     let cases_traces = [];
     let deaths_traces = [];
