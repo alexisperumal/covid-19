@@ -106,5 +106,18 @@ def states_db_states_data():
     client.close()
     return json_states
 
+@app.route("/lookup_db/lookup_data")
+def lookup_db_lookup_data():  
+    client = MongoClient('localhost', 27017) 
+    db = client['lookup_db']
+    collection_lookup = db['lookup']
+    lookup_data = collection_lookup.find()
+    json_lookup = []
+    for s in lookup_data:
+        json_lookup.append(s)
+    json_lookup = json.dumps(json_lookup, default=json_util.default)
+    client.close()
+    return json_lookup
+
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=5000,debug=True)

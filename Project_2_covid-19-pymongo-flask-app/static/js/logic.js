@@ -97,9 +97,10 @@ function createMarkers(states) {
 function convertLatLng(latestData) {
     
     //link to FIPS lookup table 
-    var FipsURL = "lookup_tables/UID_ISO_FIPS_LookUp_Table.csv"
+    //var FipsURL = "lookup_tables/UID_ISO_FIPS_LookUp_Table.csv"
+    var FipsURL = "/lookup_db/lookup_data"
     
-    d3.csv(FipsURL).then(function(fipsData){
+    d3.json(FipsURL).then(function(fipsData){
         fipsData.forEach(function(d) {
             d.FIPS = +d.FIPS;
             d.Lat = +d.Lat;
