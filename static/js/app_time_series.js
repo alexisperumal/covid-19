@@ -295,9 +295,9 @@ function optionChanged(newCountry) {
 
  function geoMapCountries(){
           Promise.all([
-            d3.csv('csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'),
-            d3.csv('csse_covid_19_time_series/time_series_covid19_deaths_global.csv'),
-            d3.csv('csse_covid_19_time_series/time_series_covid19_recovered_global.csv'),
+            d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_global.json'),
+            d3.json('csse_covid_19_time_series/time_series_covid19_deaths_global.json'),
+            d3.json('csse_covid_19_time_series/time_series_covid19_recovered_global.json'),
         ]).then(([confirmed, deaths, recovered])=>{
           // console.log(confirmed) 
            var newConfirmedObjectArr = confirmed.map(d => renameProperty(d))
@@ -331,8 +331,8 @@ function optionChanged(newCountry) {
             })
            //console.log (arrValues)
            const dataSet = [[...newArrayHeaders],...arrValues]
-         //  console.log(dataSet);
-  
+          // console.log(dataSet);
+          
           google.charts.load('current', {
             'packages':['geochart'],
             // See: https://developers.google.com/chart/interactive/docs/basic_load_libs#load-settings
@@ -345,7 +345,7 @@ function optionChanged(newCountry) {
     
                var options = {
                   sizeAxis: { minValue: d3.min(result,d=> d.confirmed_cases), maxValue: d3.max(result,d=> d.confirmed_cases) },
-                  displayMode: 'auto', //auto, chart will automatically detect data set whether it is regions or points
+                  displayMode: 'auto',   //auto, chart will automatically detect data set whether it is regions or points
                   keepAspectRatio: true, // code to set max size of chart according to div size html
                   colorAxis: {minValue: d3.min(result,d=> d.confirmed_cases), maxValue:d3.max(result,d=> d.confirmed_cases), colors: ['#fac934', '#40291C']},
                 };
@@ -365,15 +365,15 @@ function optionChanged(newCountry) {
 
   function totalCases(){
             Promise.all([
-              d3.csv('csse_covid_19_time_series/time_series_covid19_confirmed_global.csv'),
-              d3.csv('csse_covid_19_time_series/time_series_covid19_deaths_global.csv'),
-              d3.csv('csse_covid_19_time_series/time_series_covid19_recovered_global.csv'),
+                d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_global.json'),
+                d3.json('csse_covid_19_time_series/time_series_covid19_deaths_global.json'),
+                d3.json('csse_covid_19_time_series/time_series_covid19_recovered_global.json'),
           ]).then(([confirmed, deaths, recovered])=>{
                //console.log(confirmed) 
                var newConfirmedObjectArr = confirmed.map(d => renameProperty(d))
                var newDeathObjectArr = deaths.map(d => renameProperty(d))
                for (var lastProperty in newConfirmedObjectArr[0]);// to always grab the latest date
-               console.log(lastProperty)
+              // console.log(lastProperty)
               
               var arrObjs = newConfirmedObjectArr.map((item) => {
                 return {
@@ -403,8 +403,8 @@ function optionChanged(newCountry) {
                   t.Country_Region === d.Country_Region && t.death === d.death
                 ))
               );
-              console.log(resultDeath.reduce((a, b) => +a + +b.death, 0))
-              console.log(resultConfirmed.reduce((a,b) => a + b.confirmed_cases,0))
+              //console.log(resultDeath.reduce((a, b) => +a + +b.death, 0))
+              //console.log(resultConfirmed.reduce((a,b) => a + b.confirmed_cases,0))
 
               var dataSelector = d3.select('#sumary-top');
               dataSelector.html("") ;
@@ -429,6 +429,24 @@ function optionChanged(newCountry) {
      }
   
   totalCases();
+
+
+ // population, restful get api
+ axios.get('https://restcountries.eu/rest/v2/alpha/us')
+ .then(response => {
+   console.log(response.data);
+ }).catch(error => console.log(error));
+
+function getPopulation(){
+  
+ Promise.all([
+   d3.json('lookup_tables/UID_ISO_FIPS_LookUp_Table.json'),
+   d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_global.json'),   
+]).then(([lookup,confirmed])=>{
+  console.log(lookup);
+}).catch(error => console.log(error));
+}
+
   
 /* ---------------------------------------------- */
 /* data parsing */
