@@ -2,24 +2,27 @@
 function createMap(cases) {
 
     var lightmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-    attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
-    maxZoom: 18,
-    id: "mapbox.streets-basic",
-    accessToken: API_KEY
+        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+        maxZoom: 18,
+        id: "mapbox.streets-basic",
+        //accessToken: API_KEY,
+        accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
     var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.dark",
-        accessToken: API_KEY
+        //accessToken: API_KEY,
+        accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
     var outdoors = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.outdoors",
-        accessToken: API_KEY
+        //accessToken: API_KEY,
+        accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
 
@@ -90,13 +93,11 @@ function createMarkers(states) {
     createMap(L.layerGroup(circles));
 };
 
-
-
 //convert fips to lat/lng approimxations for markers
 function convertLatLng(latestData) {
     
     //link to FIPS lookup table 
-    var FipsURL = "UID_ISO_FIPS_LookUp_Table.csv"
+    var FipsURL = "lookup_tables/UID_ISO_FIPS_LookUp_Table.csv"
     
     d3.csv(FipsURL).then(function(fipsData){
         fipsData.forEach(function(d) {
@@ -119,8 +120,6 @@ function convertLatLng(latestData) {
         });
         createMarkers(latestData);
     });
-    
-    
     //console.log(latestData);
     //createMarkers(latestData);
 };
@@ -145,8 +144,7 @@ function getData(url) {
     d3.json(url).then(function(jsonData) {
         //console.log(jsonData);
         
-        var dates = [...new Set(jsonData.map(a=>a.date))];
-
+       
         // console.log(dates);
         
         jsonData.forEach(function(data) {
@@ -160,7 +158,6 @@ function getData(url) {
                 data.fips = 36061;
             };
         });
-        
         
 
         latestData(jsonData);
