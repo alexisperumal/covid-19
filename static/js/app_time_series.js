@@ -51,6 +51,21 @@ function convertArrayObjects(obj){
     return arrNewObj
 }
 
+function creatNewArrOfObjectsChange(arrDate, arrObjConfirmed, arrObjDeath){
+  let arrNewObj = [];
+  
+  for(let i = 0; i < arrDate.length -1; i++){
+     let newObj = {}
+     newObj['date'] = arrDate[i+1];
+     newObj['total_confirmed_cases'] = Math.abs(Object.values(arrObjConfirmed[i])[0]);
+     newObj['death'] = Object.values(arrObjDeath[i])[0];
+     arrNewObj.push(newObj)
+  }
+    //console.log(arrNewObj);
+    return arrNewObj
+}
+
+
 const multiFilter = (arr, filters) => {
   const filterKeys = Object.keys(filters);
   return arr.filter(eachObj => {
@@ -117,6 +132,15 @@ function removeDuplicates (arr){
 
 }
 
+function changeInCount(a) {
+  var x = [];
+  for(var i = 0, j = i +1;i<a.length;i++, j++)
+      x.push(Math.abs(a[i] - a[j]));
+      //console.log(x)
+      return x;
+}     
+
+
 /* ---------------------------------------------- */
 /* helper functions End */
 /* ---------------------------------------------- */
@@ -153,6 +177,7 @@ var indexUS = uniqueCountryList.findIndex(x => x ==="US");
 const selectedCountry = uniqueCountryList[indexUS];
 getDataTimeSeries(selectedCountry)
 getDataTimeSeriesSumary(selectedCountry)
+getDataTimeSeriesChange(selectedCountry)
 
 }).catch(err => console.log(err));  
 }
@@ -290,6 +315,7 @@ function optionChanged(newCountry) {
   //console.log(newCountry)
   getDataTimeSeries(newCountry);
   getDataTimeSeriesSumary(newCountry)
+  getDataTimeSeriesChange(newCountry)
     
  }
 
@@ -430,6 +456,117 @@ function optionChanged(newCountry) {
   
   totalCases();
 
+  /* increase in cases */ 
+
+  function getDataTimeSeriesChange(country){
+
+    var filters = {
+        "Country/Region": country
+      };
+      
+    Promise.all([
+        d3.json('csse_covid_19_time_series/time_series_covid19_confirmed_global.json'),
+        d3.json('csse_covid_19_time_series/time_series_covid19_deaths_global.json'),
+        d3.json('csse_covid_19_time_series/time_series_covid19_recovered_global.json'),
+    ]).then(([confirmed, deaths, recovered]) =>  {
+      //console.log(confirmed)
+    
+      var confirmedData = multiFilter(confirmed,filters);
+      var deathData = multiFilter(deaths,filters);
+      var recoveredData = multiFilter(recovered,filters);
+     
+      // renaming the properties that has '/' to '_', this step can be excluded if the naming convension is followed
+      var newConfirmedObjectArr = confirmedData.map(d => renameProperty(d)).map((d) => removeProperties(d,arrayKeysRemoved )) 
+      var  newDeathObjectArr= deathData.map(d => renameProperty(d)).map((d) => removeProperties(d,arrayKeysRemoved )) 
+      var  newRecoveredObjectArr= recoveredData.map(d => renameProperty(d)).map((d) => removeProperties(d,arrayKeysRemoved )) 
+      //console.log(newConfirmedObjectArr);
+    
+      const arrDates = newConfirmedObjectArr.map(obj => Object.keys(obj))
+     //console.log(arrDates)
+    
+      const arrValuesConfirmed = newConfirmedObjectArr.map(obj => Object.values(obj))
+      const arrValuesDeath = newDeathObjectArr.map(obj => Object.values(obj))
+      const arrValuesRecovered = newRecoveredObjectArr.map(obj => Object.values(obj))
+      //console.log(arrValuesDeath)
+     // console.log(arrValuesConfirmed.map(arr => arr.map(Number))); // calculate sum of multiple arrays
+    
+      var sumArrayConfirmed = arrValuesConfirmed.map(arr => arr.map(Number)).reduce( (a,b) => a.map( (c,i) => c + b[i] ));
+     // console.log(sumArrayConfirmed)
+      var sumArrayDeath = arrValuesDeath.map(arr => arr.map(Number)).reduce( (a,b) => a.map( (c,i) => c + b[i] ));
+      var sumArrayRecovered = arrValuesRecovered.map(arr => arr.map(Number)).reduce( (a,b) => a.map( (c,i) => c + b[i] ));
+      
+      var changeConfirmed = changeInCount(sumArrayConfirmed)
+     // console.log(changeConfirmed)
+      var changeDeath = changeInCount(sumArrayDeath)
+      var changeRecovered = changeInCount(sumArrayRecovered)
+      
+      // convert key value pair to array of objects,format required for plotting
+      var arrDatesConfirmed= convertArrayObjects(changeConfirmed);
+      var arrDatesDeath = convertArrayObjects(changeDeath);
+      var arrDatesRecovered = convertArrayObjects(changeRecovered);
+
+      //console.log(arrDatesConfirmed)
+
+      var arrDatesConfirmedDeathChange = creatNewArrOfObjectsChange(arrDates[0],arrDatesConfirmed,arrDatesDeath);
+      console.log(arrDatesConfirmedDeathChange)
+
+      let lenthArr = arrDatesConfirmedDeathChange.length
+
+var original = Chart.defaults.global.legend.onClick;
+Chart.defaults.global.legend.onClick = function(e, legendItem) {
+  update_caption(legendItem);
+  original.call(this, e, legendItem);
+};
+      
+        new Chart(document.getElementById("bar-chart-grouped"), {
+          type: 'bar',
+          data: {
+            labels: arrDatesConfirmedDeathChange.map(d => d.date).slice((lenthArr - 20), lenthArr),
+            datasets: [
+              {
+                label: "Total_Confirmed_Cases",
+              backgroundColor: "#88C1F2",
+              data: arrDatesConfirmedDeathChange.map(d => d.total_confirmed_cases).slice((lenthArr - 20), lenthArr)
+              }, {
+                 label: "Death",
+                backgroundColor: "#8C4A32",
+                data: arrDatesConfirmedDeathChange.map(d => d.death).slice((lenthArr - 20), lenthArr)
+  
+              }
+            ]
+          },
+          options: {
+            title: {
+              display: true,
+               text: 'Change in Cases per Day',
+            }
+          }
+        });
+
+        var labels = {
+          "Total_Confirmed_Cases": true,
+          "Deaths": true
+        };
+
+        var caption = document.getElementById("captionChange");
+
+var update_caption = function(legend) {
+  labels[legend.text] = legend.hidden;
+
+  var selected = Object.keys(labels).filter(function(key) {
+    return labels[key];
+  });
+
+  var text = selected.length ? selected.join(" & ") : "nothing";
+  caption.innerHTML;
+
+};
+   
+    }).catch(function(err) {
+        console.log(err)
+    })
+    }
+ /* increase in cases */ 
 
  // population, restful get api
  axios.get('https://restcountries.eu/rest/v2/alpha/us')
