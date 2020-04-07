@@ -170,9 +170,9 @@ function markerSize(cases) {
 };
 
 usStateURL = "nyt_covid-19_us/us-counties.json";
+url = "/counties_db/counties_data";
 
-
-getData(usStateURL);
+getData(url);
 //createMap();
 console.log("hi");
 
