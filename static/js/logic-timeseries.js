@@ -28,7 +28,6 @@ usStatesURL_CSV = "https://raw.githubusercontent.com/nytimes/covid-19-data/maste
 usCountiesURL_JSON = "nyt_covid-19_us/us-counties.json";
 usCountiesURL_CSV = "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv";
 
-
 function init() {
     var chart_div_selector = document.getElementById('us_timeseries');
 
@@ -36,6 +35,8 @@ function init() {
     d3.csv(usStatesURL_CSV).then((data) => {   
         buildStateTimeSeriesChart(chart_div_selector, data);
         // buildStateTimeSeriesRibbonChart(chart_div_selector, data);
+        // buildGDPSelectionChart();
+        buildStateSelectionChart(data);
         } );
 }
 
@@ -230,6 +231,94 @@ function buildStateTimeSeriesRibbonChart(selector, dataset) {
 //     // Fetch new data each time a new sample is selected
 //     buildCharts(newSample);
 // }
+
+
+
+// Build a selection chart for state data (cases and deaths).
+function buildStateSelectionChart(dataset) {
+
+    function unpack(rows, key) {
+        return rows.map(function(row) { return row[key]; });
+    }
+
+    var allCountryNames = unpack(dataset, 'state'),
+        listofCountries = allCountryNames.filter((x, i, a) => a.indexOf(x) === i).sort(),
+        allDate = unpack(dataset, 'date'),
+        allCases = unpack(dataset, 'cases'),
+        allDeaths = unpack(dataset, 'deaths');
+    
+    function getCountryData(chosenCountry) {
+        currentDate = [];
+        currentCases = [];
+        currentDeaths = [];
+        for (var i = 0 ; i < allCountryNames.length ; i++){
+            if ( allCountryNames[i] === chosenCountry ) {
+                currentDate.push(allDate[i]);
+                currentCases.push(allCases[i]);
+                currentDeaths.push(allDeaths[i]);
+            } 
+        }
+    };
+
+    // Default Country Data
+    setBubblePlot(listofCountries[0]);
+    
+    function setBubblePlot(chosenCountry) {
+        getCountryData(chosenCountry);  
+
+        var trace1 = {
+            x: currentDate,
+            y: currentCases,
+            mode: 'lines+markers',
+            marker: {
+                size: 12, 
+                opacity: 0.5
+            },
+            name: 'Cases'
+        };
+
+        var trace2 = {
+            x: currentDate,
+            y: currentDeaths,
+            mode: 'lines+markers',
+            marker: {
+                size: 12, 
+                opacity: 0.5
+            },
+            name: 'Deaths',
+            // color: 'red'
+        };
+
+        var data = [trace1, trace2];
+
+        var layout = {
+            title: 'COVID-19 Cases and Deaths<br>' + chosenCountry
+        };
+
+        Plotly.newPlot('plotdiv', data, layout, {showSendToCloud: true});
+    };
+    
+    var innerContainer = document.querySelector('[data-num="0"'),
+        plotEl = innerContainer.querySelector('.plot'),
+        countrySelector = innerContainer.querySelector('.countrydata');
+
+    function assignOptions(textArray, selector) {
+        for (var i = 0; i < textArray.length;  i++) {
+            var currentOption = document.createElement('option');
+            currentOption.text = textArray[i];
+            selector.appendChild(currentOption);
+        }
+    }
+
+    assignOptions(listofCountries, countrySelector);
+
+    function updateCountry(){
+        setBubblePlot(countrySelector.value);
+    }
+    
+    countrySelector.addEventListener('change', updateCountry, false);
+};
+
 
 // Initialize the dashboard
 init();
