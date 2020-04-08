@@ -1,28 +1,28 @@
 
-function createMap(cases) {
+function createMap(cases, deaths) {
 
     var lightmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.streets-basic",
-        //accessToken: API_KEY,
-        accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
+        accessToken: API_KEY,
+        //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
     var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.dark",
-        //accessToken: API_KEY,
-        accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
+        accessToken: API_KEY,
+        //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
     var outdoors = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.outdoors",
-        //accessToken: API_KEY,
-        accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
+        accessToken: API_KEY,
+        //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
 
@@ -34,7 +34,7 @@ function createMap(cases) {
 
     var overlayMaps = {
         "Confirmed Cases": cases,
-        //"Deaths": deaths
+        "Deaths": deaths
     };
 
 
@@ -45,7 +45,7 @@ function createMap(cases) {
     });
 
     L.control.layers(baseMaps, overlayMaps, {
-        collaped: true
+        collaped: false
     }).addTo(map);
 
     /*
@@ -73,24 +73,35 @@ function createMap(cases) {
 function createMarkers(states) {
     //console.log(states);
 
-    var circles = [];
-
+    var casesMarker = [];
+    var deathsMarker = [];
     states.forEach(function(state) {
         //console.log(state.location)
       
-        var circle = L.circle(state.location, {
+        casesMarker.push(
+            L.circle(state.location, {
+                fillOpacity: 0.5,
+                weight:0,
+                color: "red",
+                fillColor: "red",
+                radius: markerSize(state.cases),
+        }).bindPopup("<h4>" + state.county + ", " + state.state + "</h4><hr><p>There are <b>" + state.cases + "</b> known cases of people who have or have had COVID-19. Thus far, <b>"+state.deaths+" people have died.</b> Last update: "+state.date+".</p>")
+      );
+
+      deathsMarker.push(
+        L.circle(state.location, {
             fillOpacity: 0.5,
             weight:0,
-            color: "red",
-            fillColor: "red",
-            radius: markerSize(state.cases),
-        }).bindPopup("<h3>" + state.county + "</h3><br><h3>" + state.state + "</h3><hr><h3>Cases: " + state.cases + "</h3><br><h3>Deaths: "+state.deaths+"</h3>");
-        
-        circles.push(circle);
+            color: "gray",
+            fillColor: "gray",
+            radius: (markerSize(state.deaths)*5),
+            })
+        );
     });
 
-    
-    createMap(L.layerGroup(circles));
+    var cases = L.layerGroup(casesMarker);
+    var deaths = L.layerGroup(deathsMarker);
+    createMap(cases,deaths);
 };
 
 //convert fips to lat/lng approimxations for markers
@@ -175,5 +186,5 @@ url = "/counties_db/counties_data";
 
 getData(url);
 //createMap();
-console.log("hi");
+
 
