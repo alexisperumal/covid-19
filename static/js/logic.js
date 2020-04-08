@@ -1,6 +1,7 @@
 
 function createMap(cases, deaths) {
 
+    /*
     var lightmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
@@ -8,6 +9,7 @@ function createMap(cases, deaths) {
         accessToken: API_KEY,
         //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
+*/
 
     var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
@@ -25,9 +27,19 @@ function createMap(cases, deaths) {
         //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
+    //custom map created in mapbox studio:
+    var grants = L.tileLayer("https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
+        attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
+        maxZoom: 18,
+        username: "gthompsonku",
+        style_id: "ck8qi3nel08dg1is514wrhx29",
+        accessToken: API_KEY,
+        //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
+    });
+
 
     var baseMaps = {
-        "Light Map": lightmap,
+        "Light Map": grants,
         "Dark Map": darkmap,
         "Outdoor Map": outdoors,
     };
@@ -37,71 +49,87 @@ function createMap(cases, deaths) {
         "Deaths": deaths
     };
 
-
     var map = L.map("us_div", {
         center: [37.0902, -95.7129],
         zoom: 4,
-        layers: [lightmap, cases]
+        layers: [grants, cases]
     });
 
     L.control.layers(baseMaps, overlayMaps, {
         collaped: false
     }).addTo(map);
 
-    /*
-   
 
     var legend = L.control({position: 'bottomright'});
-
     legend.onAdd = function (map) {
-        var div = L.DomUtil.create('div', 'info legend');
-        grades = [0,1,2,3,4,5,6,7,8];
-        
-        for (var i = 0; i < grades.length; i++) {
-            div.innerHTML +=
-                '<i style="background:' + getColor(grades[i] + 1) + '"></i> ' +
-                grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '<br>' : '+');
-            }
-        
-        return div;
-    };
+   
+    var div = L.DomUtil.create('div', 'info legend');
 
+    grades = [0, 100, 1000, 5001, 10001],
+    labels = ['<strong>Number of Cases:</strong>'],
+    categories = ['<100','<1,000','<5,000',' <10,000  ', '+10,000'];
+   
+    for (var i = 0; i < grades.length; i++) {
+           var grade = grades[i];
+      labels.push(
+           '<br><i class="circlepadding" style="width: '+Math.max(8,(7-2.2*markerSize(grade)))+'px;"></i> <i style="background: #8C2A2A; width: '+markerSize(grade)*2+'px; height: '+markerSize(grade)*2+'px; border-radius: 50%; margin-top: '+Math.max(0,(9-markerSize(grade)))+'px;"></i><i class="circlepadding" style="width: '+Math.max(2,(25-2*markerSize(grade)))+'px;"></i> ' + categories[i]);
+        };
+    div.innerHTML = labels.join('<br>');
+    return div;
+    };
     legend.addTo(map);
-*/
+
 };
 
+
+function markerSize(cases) {
+        if (cases<100)
+            return 2;
+        else if (cases<1000)
+            return 4;
+        else if (cases<5000)
+            return 11;
+        else if (cases<10000)
+            return 15;
+        else if (cases>10000)
+            return 23;
+        else
+            return 1;
+    };
+
+
+
 function createMarkers(states) {
-    //console.log(states);
 
     var casesMarker = [];
     var deathsMarker = [];
 
     states.forEach(function(state) {
-        //console.log(state.location)
       
         casesMarker.push(
             L.circle(state.location, {
                 fillOpacity: 0.5,
-                weight:0,
-                color: "red",
-                fillColor: "red",
-                radius: markerSize(state.cases),
-        }).bindPopup("<h4>" + state.county + ", " + state.state + "</h4><hr><p>There are <b>" + state.cases + "</b> known cases of people who have or have had COVID-19. Thus far, <b>"+state.deaths+" people have died.</b> Last update: "+state.date+".</p>")
+                weight:0.5,
+                color: "#8C2A2A",
+                fillColor: "#8C2A2A",
+                radius: (markerSize(state.cases))*5000,
+        }).bindPopup("<h5>" + state.county + ", " + state.state + "</h5><hr><p>There are <b>" + state.cases + "</b> known cases of people who have or have had COVID-19. Thus far, <b>"+state.deaths+" people have died.</b> Last update: "+state.date+".</p>")
       );
 
       deathsMarker.push(
         L.circle(state.location, {
             fillOpacity: 0.5,
             weight:0,
-            color: "gray",
-            fillColor: "gray",
-            radius: (markerSize(state.deaths)*5),
-            })
+            color: "black",
+            fillColor: "black",
+            radius: (markerSize(state.deaths)),
+            }).bindPopup("<h5>" + state.county + ", " + state.state + "</h5><hr><p>There are <b>" + state.cases + "</b> known cases of people who have or have had COVID-19. Thus far, <b>"+state.deaths+" people have died.</b> Last update: "+state.date+".</p>")
         );
     });
 
     var cases = L.layerGroup(casesMarker);
     var deaths = L.layerGroup(deathsMarker);
+    
     createMap(cases,deaths);
 };
 
@@ -128,13 +156,10 @@ function convertLatLng(latestData) {
             Lng = (result[0] !== undefined) ? (result[0].Long_) : null;
             data.location=[Lat, Lng];
             
-            
             return latestData;
         });
         createMarkers(latestData);
     });
-    //console.log(latestData);
-    //createMarkers(latestData);
 };
 
 function latestData(data) {
@@ -148,18 +173,13 @@ function latestData(data) {
         if (d.date === lastDate)
         todaysData.push(d);
     });
-    //console.log(todaysData)
 
     convertLatLng(todaysData);
 };
 
 function getData(url) {
     d3.json(url).then(function(jsonData) {
-        //console.log(jsonData);
-        
-       
-        // console.log(dates);
-        
+   
         jsonData.forEach(function(data) {
             data.fips = +data.fips;
             data.cases = +data.cases;
@@ -171,16 +191,14 @@ function getData(url) {
                 data.fips = 36061;
             };
         });
-        
 
         latestData(jsonData);
     });
 };
 
-function markerSize(cases) {
-    
-    return cases*5;
-};
+
+
+
 
 function markerColor(d) {
     return d > 2000 ? '#bd0026' :
@@ -195,6 +213,4 @@ usStateURL = "nyt_covid-19_us/us-counties.json";
 
 
 getData(usStateURL);
-
-
 
