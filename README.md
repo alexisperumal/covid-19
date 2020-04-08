@@ -1,6 +1,8 @@
 # covid-19-Project2
 UCSD Data Science Project 2 - D3 Visualization - COVID-19 Dashboard
 
+![Corona Website Demo](Presentation/2020-04-08_Corona_flask_website_demo-480.gif)
+
 ## Team Members:
 * Alexis Perumal 
 * Arundhati Chakraborty
