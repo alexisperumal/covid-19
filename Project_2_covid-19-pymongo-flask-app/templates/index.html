@@ -28,7 +28,6 @@
     <!-- API key -->
         <script type="text/javascript" src="static/js/config.js"></script>
    
-
      <!-- style -->
   <link rel="stylesheet" href="./static/CSS/style.css">
 </head>
@@ -77,10 +76,12 @@
          </div>
   </div>
 
-    <div class="row geoMapCountries">
+  <div class="row geoMapCountries">
       <div class="col-md-12 ">
-       <canvas id="bar-chart-grouped" ></canvas>
-       <p id="captionChange"></p>
+         <div>
+            <canvas id="bar-chart-grouped" ></canvas>
+            <p id="captionChange"></p>
+         </div>
       </div>
   </div>
 
@@ -118,7 +119,6 @@
   </div>
    <!-- Alexis will put his graph here. - END -->
 
-
     <!-- Pull down Plotly example code. -->
     <div class="row geoMapCountries">
       <div class="col-md-12 ">
@@ -143,6 +143,7 @@
 
     <!-- body -->
   </div>
+
     <!-- Footer-->
   <div id="footer">
     <p>copyright &copy; 2020</p>
@@ -153,9 +154,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.10/lodash.min.js"></script>
    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-   <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script>
-  
-  
+   <!-- <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script> -->
+   <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.2.2/Chart.min.js"></script>
+
+   
   
   
   <!-- Loading our javascript code: -->
@@ -169,7 +171,7 @@
 
     <!-- Alexis's charts -->
     <script src="./static/js/logic-timeseries.js"></script> <!-- Alexis' code for timeseries plots -->
-    <script src="./static/js/dropdown_chart.js"></script> <!-- Alexis' code for timeseries plots -->
+    <!-- <script src="./static/js/dropdown_chart.js"></script> Alexis' code for timeseries plots -->
 
 </body>
 
