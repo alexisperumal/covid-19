@@ -45,7 +45,7 @@ function init() {
 
 
 function buildStateTimeSeriesChart(selector, dataset) {
-    var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan', 'Hawaii']
+    var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan', 'Lousiana']
 
     let cases_traces = [];
     let deaths_traces = [];
