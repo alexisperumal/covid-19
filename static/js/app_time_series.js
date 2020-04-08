@@ -507,9 +507,7 @@ function optionChanged(newCountry) {
 
       //console.log(arrDatesConfirmed)
 
-      var arrDatesConfirmedDeathChange = creatNewArrOfObjectsChange(arrDates[0],arrDatesConfirmed,arrDatesDeath);
-      console.log(arrDatesConfirmedDeathChange)
-
+      let arrDatesConfirmedDeathChange = creatNewArrOfObjectsChange(arrDates[0],arrDatesConfirmed,arrDatesDeath); 
       let lenthArr = arrDatesConfirmedDeathChange.length
 
 var original = Chart.defaults.global.legend.onClick;
