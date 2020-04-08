@@ -43,7 +43,6 @@ function init() {
 }
 
 
-console.log("Kevin says Hi!");
 
 function buildStateTimeSeriesChart(selector, dataset) {
     var states = ['New York', 'New Jersey', 'Washington', 'California', 'Michigan', 'Hawaii']
