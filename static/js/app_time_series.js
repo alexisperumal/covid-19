@@ -510,25 +510,31 @@ function optionChanged(newCountry) {
       let arrDatesConfirmedDeathChange = creatNewArrOfObjectsChange(arrDates[0],arrDatesConfirmed,arrDatesDeath); 
       let lenthArr = arrDatesConfirmedDeathChange.length
 
-var original = Chart.defaults.global.legend.onClick;
-Chart.defaults.global.legend.onClick = function(e, legendItem) {
-  update_caption(legendItem);
-  original.call(this, e, legendItem);
-};
+      let chartStacked = document.getElementById("bar-chart-grouped").getContext('2d');
+
+      var original = Chart.defaults.global.legend.onClick;
+      Chart.defaults.global.legend.onClick = function(e, legendItem) {
+        update_caption(legendItem);
+        original.call(this, e, legendItem);
+      };
+
+      if(window.chart && window.chart !== null){
+        window.chart.destroy();
+    }
       
-        new Chart(document.getElementById("bar-chart-grouped"), {
+      window.chart =   new Chart(chartStacked, {
           type: 'bar',
           data: {
-            labels: arrDatesConfirmedDeathChange.map(d => d.date).slice((lenthArr - 30), lenthArr),
+            labels: arrDatesConfirmedDeathChange.map(d => d.date).slice((lenthArr - 20), lenthArr),
             datasets: [
               {
                 label: "Total_Confirmed_Cases",
               backgroundColor: "#88C1F2",
-              data: arrDatesConfirmedDeathChange.map(d => +d.total_confirmed_cases).slice((lenthArr - 30), lenthArr)
+              data: arrDatesConfirmedDeathChange.map(d => d.total_confirmed_cases).slice((lenthArr - 20), lenthArr)
               }, {
                  label: "Death",
                 backgroundColor: "#8C4A32",
-                data: arrDatesConfirmedDeathChange.map(d => +d.death).slice((lenthArr - 30), lenthArr)
+                data: arrDatesConfirmedDeathChange.map(d => d.death).slice((lenthArr - 20), lenthArr)
   
               }
             ]
@@ -555,10 +561,10 @@ var update_caption = function(legend) {
     return labels[key];
   });
 
-  var text = selected.length ? selected.join(" & ") : "nothing";
-  caption.innerHTML;
+    var text = selected.length ? selected.join(" & ") : "nothing";
+    caption.innerHTML;
 
-};
+  };
    
     }).catch(function(err) {
         console.log(err)
