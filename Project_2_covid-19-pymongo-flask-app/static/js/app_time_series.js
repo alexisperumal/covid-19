@@ -300,7 +300,7 @@ Promise.all([
   let arrDatesConfirmedDeathCount = creatNewArrOfObjects(arrDates[0],arrDatesConfirmed,arrDatesDeath, arrDatesRecovered);
   //console.log(arrDatesConfirmedDeathCount)
 
-  const ticksDate = arrDatesConfirmedDeathCount.slice(Math.max(arrDatesConfirmedDeathCount.length - 20, 0))
+  const ticksDate = arrDatesConfirmedDeathCount.slice(Math.max(arrDatesConfirmedDeathCount.length - 30, 0))
 
   barStackedChart(ticksDate)
   
@@ -518,16 +518,16 @@ function optionChanged(newCountry) {
           new Chart(document.getElementById("bar-chart-grouped"), {
             type: 'bar',
             data: {
-              labels: arrDatesConfirmedDeathChange.map(d => d.date).slice((lenthArr - 20), lenthArr),
+              labels: arrDatesConfirmedDeathChange.map(d => d.date).slice((lenthArr - 30), lenthArr),
               datasets: [
                 {
                   label: "Total_Confirmed_Cases",
                 backgroundColor: "#88C1F2",
-                data: arrDatesConfirmedDeathChange.map(d => d.total_confirmed_cases).slice((lenthArr - 20), lenthArr)
+                data: arrDatesConfirmedDeathChange.map(d => d.total_confirmed_cases).slice((lenthArr - 30), lenthArr)
                 }, {
                    label: "Death",
                   backgroundColor: "#8C4A32",
-                  data: arrDatesConfirmedDeathChange.map(d => d.death).slice((lenthArr - 20), lenthArr)
+                  data: arrDatesConfirmedDeathChange.map(d => d.death).slice((lenthArr - 30), lenthArr)
     
                 }
               ]
