@@ -9,7 +9,7 @@ function createMap(cases, deaths) {
         //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 */
-    var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+    var darkmap = L.tileLayer(`https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${accessToken}`, {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.dark",
@@ -17,7 +17,7 @@ function createMap(cases, deaths) {
         //accessToken: "pk.eyJ1IjoiZ3Rob21wc29ua3UiLCJhIjoiY2s4MXZodXI1MHRzMDNrbzR6MHJyeHp0eiJ9.8NxzweI4xusaeElhL4ka0Q"
     });
 
-    var outdoors = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+    var outdoors = L.tileLayer(`https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${accessToken}`, {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         id: "mapbox.outdoors",
@@ -26,7 +26,7 @@ function createMap(cases, deaths) {
     });
 
       //custom map created in mapbox studio:
-    var grants = L.tileLayer("https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/256/{z}/{x}/{y}?access_token={accessToken}", {
+    var grants = L.tileLayer(`https://api.mapbox.com/styles/v1/{username}/{style_id}/tiles/256/{z}/{x}/{y}?access_token=${accessToken}`, {
         attribution: "Map data &copy; <a href=\"https://www.openstreetmap.org/\">OpenStreetMap</a> contributors, <a href=\"https://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA</a>, Idery © <a href=\"https://www.mapbox.com/\">Mapbox</a>",
         maxZoom: 18,
         username: "gthompsonku",
