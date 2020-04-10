@@ -35,9 +35,9 @@ function init() {
     // Read in the csv into javascript, http://learnjsdata.com/read_data.html
     d3.csv(usStatesURL_CSV).then((data) => {   
         buildStateTimeSeriesChart(chart_div_selector, data);
+        buildStateSelectionChart(data);
         // buildStateTimeSeriesRibbonChart(chart_div_selector, data);
         // buildGDPSelectionChart();
-        buildStateSelectionChart(data);
         } );
 }
 
@@ -147,6 +147,8 @@ function buildStateTimeSeriesRibbonChart(selector, dataset) {
             "rgb(217,217,255)"
         ]
     ];
+
+    console.log('In ribbon chart builder.')
 
     let cases_traces = [];
     let deaths_traces = [];
